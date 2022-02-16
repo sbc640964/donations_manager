@@ -11,7 +11,7 @@ class CreateShtibilsTable extends Migration
         Schema::create('shtibils', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->foreignId('city')->constrained('cities');
+            $table->foreignId('city_id')->constrained('cities');
             $table->timestamps();
         });
     }

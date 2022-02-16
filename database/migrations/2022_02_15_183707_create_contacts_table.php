@@ -15,11 +15,11 @@ class CreateContactsTable extends Migration
             $table->string('full_name');
             $table->string('tel');
             $table->string('phone');
-            $table->foreignId('shtibil')->nullable()->constrained('shtibils');
-            $table->foreignId('city')->constrained('cities');
+            $table->foreignId('shtibil_id')->nullable()->constrained('shtibils');
+            $table->foreignId('city_id')->constrained('cities');
             $table->string('address');
-            $table->foreignId('father')->nullable()->constrained('contacts');
-            $table->foreignId('father_in_law')->nullable()->constrained('contacts');
+            $table->foreignId('father_id')->nullable()->constrained('contacts');
+            $table->foreignId('father_in_law_id')->nullable()->constrained('contacts');
             $table->timestamps();
         });
     }

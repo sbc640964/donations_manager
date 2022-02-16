@@ -10,8 +10,8 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('donor')->constrained('contacts');
-            $table->foreignId('fund_raiser')->constrained('contacts');
+            $table->foreignId('donor_id')->constrained('contacts');
+            $table->foreignId('fund_raiser_id')->constrained('contacts');
             $table->text('description');
             $table->timestamp('reminder');
             $table->text('emails');
