@@ -66,7 +66,17 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('donor'),
+                Tables\Columns\TextColumn::make('type')->enum([
+                    1 => "הוראת קבע בנקאית",
+                    2 => "הוראת קבע באשראי",
+                    3 => "תשלום חד פעמי באשראי",
+                    4 => "תשלום חד פעמי בהעברה",
+                    5 => "תשלום מזומן חד פעמי",
+                ]),
+                Tables\Columns\TextColumn::make('amount')->money('ILS', true)->sortable(),
+                Tables\Columns\TextColumn::make('months'),
+                Tables\Columns\TextColumn::make('total')->money('ILS', true),
+                Tables\Columns\BooleanColumn::make('done'),
             ])
             ->filters([
                 //
