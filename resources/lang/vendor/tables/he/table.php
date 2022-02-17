@@ -107,16 +107,16 @@ return [
 
     'selection_indicator' => [
 
-        'selected_count' => '1 record selected.|:count records selected.',
+        'selected_count' => 'שורה אחת נבחרה.|נבחרו :count שורות.',
 
         'buttons' => [
 
             'select_all' => [
-                'label' => 'Select all :count',
+                'label' => 'בחר את כל :count',
             ],
 
             'deselect_all' => [
-                'label' => 'Deselect all',
+                'label' => 'הסר בחירה מהכל',
             ],
 
         ],
