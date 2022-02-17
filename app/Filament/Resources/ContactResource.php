@@ -19,38 +19,42 @@ class ContactResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $label = 'איש קשר';
+
+    protected static ?string $pluralLabel = 'אנשי קשר';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('first_name')
+                Forms\Components\TextInput::make('first_name')->label('שם פרטי')
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('last_name')
+                Forms\Components\TextInput::make('last_name')->label('משפחה')
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('tel')
+                Forms\Components\TextInput::make('tel')->label('טלפון')
                     ->tel()
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('phone')
+                Forms\Components\TextInput::make('phone')->label('נייד')
                     ->tel()
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('address')
+                Forms\Components\TextInput::make('address')->label('כתובת')
                     ->required()
                     ->columnSpan(2)
                     ->maxLength(255),
 
-                Forms\Components\BelongsToSelect::make('city_id')
+                Forms\Components\BelongsToSelect::make('city_id')->label('עיר')
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(fn (\Closure $set) => $set('shtibil_id', null))
                     ->relationship('city', 'name'),
 
-                Forms\Components\BelongsToSelect::make('shtibil_id')
+                Forms\Components\BelongsToSelect::make('shtibil_id')->label('שטיבל')
                     ->relationship('shtibil', 'name', fn($query, \Closure $get) => $query->where('city_id', $get('city_id')))
                     ->searchable(),
 
@@ -75,13 +79,13 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('last_name')->searchable(['first_name', 'full_name']),
-                Tables\Columns\TextColumn::make('first_name')->searchable(),
-                Tables\Columns\TextColumn::make('tel'),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('city.name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('shtibil.name')->searchable(),
+                Tables\Columns\TextColumn::make('last_name')->searchable(['first_name', 'full_name'])->label('משפחה'),
+                Tables\Columns\TextColumn::make('first_name')->searchable()->label('שם פרטי'),
+                Tables\Columns\TextColumn::make('tel')->label('טלפון'),
+                Tables\Columns\TextColumn::make('phone')->label('נייד'),
+                Tables\Columns\TextColumn::make('city.name')->sortable()->searchable()->label('עיר'),
+                Tables\Columns\TextColumn::make('address')->label('כתובת'),
+                Tables\Columns\TextColumn::make('shtibil.name')->searchable()->label('שטיבל'),
                 Tables\Columns\BooleanColumn::make('donations_count')->counts('donations')->label('תרם'),
 //                Tables\Columns\TextColumn::make('father'),
 //                Tables\Columns\TextColumn::make('father_in_law'),
@@ -117,9 +121,9 @@ class ContactResource extends Resource
 
 
             ->pushActions([
-                Tables\Actions\LinkAction::make('add donation')
+                Tables\Actions\LinkAction::make('add donation')->label('הוסף תרומה')
                     ->form([
-                        Forms\Components\Radio::make('type')
+                        Forms\Components\Radio::make('type')->label('סוג')
                             ->reactive()
                             ->columnSpan(2)
                             ->afterStateUpdated(function(Closure $set, Closure $get) {
@@ -137,26 +141,26 @@ class ContactResource extends Resource
                             ])
                             ->default(2),
 
-                        Forms\Components\Select::make('fund_raiser_id')
+                        Forms\Components\Select::make('fund_raiser_id')->label('מתרים')
                             ->getSearchResultsUsing(fn($query) => Contact::where('full_name', 'like', "%$query%")->pluck('full_name', 'id'))
                             ->columnSpan(2)
                             ->searchable(),
 
-                        Forms\Components\TextInput::make('amount')
+                        Forms\Components\TextInput::make('amount')->label('סכום')
                             ->columnSpan(2)
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('months')
+                        Forms\Components\TextInput::make('months')->label('מס\' חודשים')
                             ->hidden(fn(Closure $get) => !in_array($get('type'), [1,2]) && !is_null($get('type')))
                             ->columnSpan(2)
                             ->default(60)
                             ->numeric()
                             ->required(),
                         //Forms\Components\FileUpload::make('file'),
-                        Forms\Components\Toggle::make('done')->columnSpan(2),
+                        Forms\Components\Toggle::make('done')->columnSpan(2)->label('בוצע'),
 
-                        Forms\Components\Textarea::make('not')->columnSpan(2),
+                        Forms\Components\Textarea::make('not')->columnSpan(2)->label('הערה'),
                     ])
                     ->action(function (Contact $record, $data) {
                         $record->donations()->create($data);
