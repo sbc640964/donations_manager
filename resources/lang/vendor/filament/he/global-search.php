@@ -3,10 +3,10 @@
 return [
 
     'field' => [
-        'label' => 'Global search',
-        'placeholder' => 'Search',
+        'label' => 'חיפוש גלובלי',
+        'placeholder' => 'חפש',
     ],
 
-    'no_results_message' => 'No search results found.',
+    'no_results_message' => 'לא נמצאו תוצאות.',
 
 ];
