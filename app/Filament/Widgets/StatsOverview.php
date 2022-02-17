@@ -7,6 +7,8 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Illuminate\Support\Facades\DB;
 
+use Akaunting\Money\Money;
+
 class StatsOverview extends BaseWidget
 {
     protected function getCards(): array
@@ -16,8 +18,8 @@ class StatsOverview extends BaseWidget
         $total = DB::table('donations')->selectRaw('SUM(amount * months) as total')->first()?->total ?? 0;
 
         return [
-            Card::make('Total donations', $totalDonations),
-            Card::make('Total', $total),
+            Card::make('Total donations', $totalDonations ),
+            Card::make('Total', Money::ILS($total, true)),
         ];
     }
 }
