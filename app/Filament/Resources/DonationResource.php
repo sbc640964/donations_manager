@@ -26,7 +26,7 @@ class DonationResource extends Resource
                 Forms\Components\Radio::make('type')
                     ->reactive()
                     ->afterStateUpdated(function(Closure $set, Closure $get) {
-                        if(!in_array($get('type'), [1,2])){
+                        if(!in_array($get('type'), [1,2,6])){
                             $set('months', 1);
                         }
                     })
@@ -36,6 +36,7 @@ class DonationResource extends Resource
                         3 => "תשלום חד פעמי באשראי",
                         4 => "תשלום חד פעמי בהעברה",
                         5 => "תשלום מזומן חד פעמי",
+                        6 => "שקים",
                     ])
                     ->default(2),
 
@@ -51,7 +52,7 @@ class DonationResource extends Resource
                     ->numeric(),
 
                 Forms\Components\TextInput::make('months')
-                    ->hidden(fn(Closure $get) => !in_array($get('type'), [1,2]) && !is_null($get('type')))
+                    ->hidden(fn(Closure $get) => !in_array($get('type'), [1,2,6]) && !is_null($get('type')))
                     ->default(60)
                     ->numeric(),
 
@@ -72,6 +73,7 @@ class DonationResource extends Resource
                     3 => "תשלום חד פעמי באשראי",
                     4 => "תשלום חד פעמי בהעברה",
                     5 => "תשלום מזומן חד פעמי",
+                    6 => "שקים",
                 ]),
                 Tables\Columns\TextColumn::make('amount')->money('ILS', true)->sortable(),
                 Tables\Columns\TextColumn::make('months'),
