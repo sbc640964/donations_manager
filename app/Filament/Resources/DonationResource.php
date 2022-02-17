@@ -71,9 +71,9 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('donor.full_name')->label('תורם'),
-                Tables\Columns\TextColumn::make('donor.city.name')->label('עיר'),
-                Tables\Columns\TextColumn::make('donor.shtibil.name')->label('שטיבל'),
+                Tables\Columns\TextColumn::make('donor.full_name')->label('תורם')->searchable(),
+                Tables\Columns\TextColumn::make('donor.city.name')->label('עיר')->searchable(),
+                Tables\Columns\TextColumn::make('donor.shtibil.name')->label('שטיבל')->searchable(),
                 Tables\Columns\TextColumn::make('type')->label('סוג התרומה')->enum([
                     1 => "הוראת קבע בנקאית",
                     2 => "הוראת קבע באשראי",
