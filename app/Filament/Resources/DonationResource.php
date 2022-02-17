@@ -36,7 +36,8 @@ class DonationResource extends Resource
                         3 => "תשלום חד פעמי באשראי",
                         4 => "תשלום חד פעמי בהעברה",
                         5 => "תשלום מזומן חד פעמי",
-                    ]),
+                    ])
+                    ->default(2),
 
                 Forms\Components\BelongsToSelect::make('donor_id')
                     ->relationship('donor', 'full_name')
@@ -65,7 +66,7 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('donor'),
             ])
             ->filters([
                 //
@@ -75,7 +76,7 @@ class DonationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

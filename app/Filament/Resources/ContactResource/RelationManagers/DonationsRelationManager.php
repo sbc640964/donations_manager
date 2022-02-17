@@ -32,7 +32,9 @@ class DonationsRelationManager extends HasManyRelationManager
                         3 => "תשלום חד פעמי באשראי",
                         4 => "תשלום חד פעמי בהעברה",
                         5 => "תשלום מזומן חד פעמי",
-                    ]),
+                    ])
+                    ->default(2),
+
                 Forms\Components\BelongsToSelect::make('fund_raiser_id')
                     ->relationship('fundRaiser', 'full_name')
                     ->searchable(),

@@ -86,6 +86,13 @@ class ContactResource extends Resource
             ])
             ->filters([
 
+                Tables\Filters\Filter::make('s')
+                    ->form([
+                        Forms\Components\TextInput::make('search'),
+                    ])->query(fn($query, $data) => $query->when(
+                        $data['search'],
+                        fn ($query, $search) => $query->where('full_name', 'like', "%$search%"),
+                    )),
                 Tables\Filters\MultiSelectFilter::make('city')
                     ->relationship('city', 'name'),
 
