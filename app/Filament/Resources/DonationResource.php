@@ -71,7 +71,10 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('type')->enum([
+                Tables\Columns\TextColumn::make('donor.full_name')->label('תורם'),
+                Tables\Columns\TextColumn::make('donor.city.name')->label('עיר'),
+                Tables\Columns\TextColumn::make('donor.shtibil.name')->label('שטיבל'),
+                Tables\Columns\TextColumn::make('type')->label('סוג התרומה')->enum([
                     1 => "הוראת קבע בנקאית",
                     2 => "הוראת קבע באשראי",
                     3 => "תשלום חד פעמי באשראי",
@@ -79,10 +82,12 @@ class DonationResource extends Resource
                     5 => "תשלום מזומן חד פעמי",
                     6 => "שקים",
                 ]),
-                Tables\Columns\TextColumn::make('amount')->money('ILS', true)->sortable(),
-                Tables\Columns\TextColumn::make('months'),
-                Tables\Columns\TextColumn::make('total')->money('ILS', true),
-                Tables\Columns\BooleanColumn::make('done'),
+                Tables\Columns\TextColumn::make('amount')->label('סכום')
+                    ->money('ILS', true)
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('months')->label("מס' חודשים/תשלומים"),
+                Tables\Columns\TextColumn::make('total')->label('סה"כ')->money('ILS', true),
+                Tables\Columns\BooleanColumn::make('done')->label('בוצע'),
             ])
             ->filters([
                 //

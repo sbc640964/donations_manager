@@ -8,6 +8,10 @@ class Contact extends Model
 {
     protected $guarded = [];
 
+    protected $appends = [
+        'full_name'
+    ];
+
     public function father(){
         return $this->belongsTo(Contact::class);
     }
@@ -32,6 +36,17 @@ class Contact extends Model
     public function donationsIn()
     {
         return $this->hasMany(Donation::class, 'fund_raiser_id');
+    }
+
+    public function getFullNameAttribute()
+    {
+        $name = $this->last_name;
+
+        if($this->first_name){
+            $name .= " $this->first_name";
+        }
+
+        return $name;
     }
 
 
