@@ -11,12 +11,14 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
 
 class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
 
     public static function form(Form $form): Form
     {
@@ -78,6 +80,7 @@ class ContactResource extends Resource
                 Tables\Columns\TextColumn::make('city.name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('address'),
                 Tables\Columns\TextColumn::make('shtibil.name')->searchable(),
+                Tables\Columns\BooleanColumn::make('donations_count')->counts('donations')->label('תרם'),
 //                Tables\Columns\TextColumn::make('father'),
 //                Tables\Columns\TextColumn::make('father_in_law'),
 //                Tables\Columns\TextColumn::make('created_at')
@@ -85,7 +88,16 @@ class ContactResource extends Resource
 //                Tables\Columns\TextColumn::make('updated_at')
 //                    ->dateTime(),
             ])
+
+
             ->filters([
+//                Tables\Filters\MultiSelectFilter::make('donations')
+//                    ->options([
+//                        'yes',
+//                        'no'
+//                    ])
+//                    ->query(fn (Builder $query, $data): Builder => $query->{$data === 'yes' ? 'whereHas' : 'whereDoesntHave'}('donations'))
+//                    ->label('מצב תרומה'),
 
                 Tables\Filters\Filter::make('s')
                     ->form([
@@ -100,6 +112,8 @@ class ContactResource extends Resource
                 Tables\Filters\MultiSelectFilter::make('shtibil')
                     ->relationship('shtibil', 'name'),
             ])
+
+
             ->pushActions([
                 Tables\Actions\LinkAction::make('add donation')
                     ->form([
