@@ -2,14 +2,14 @@
 
 return [
 
-    'title' => 'Login',
+    'title' => 'כניסה',
 
-    'heading' => 'Sign in to your account',
+    'heading' => 'כנס לחשבונך',
 
     'buttons' => [
 
         'submit' => [
-            'label' => 'Sign in',
+            'label' => 'כניסה',
         ],
 
     ],
@@ -17,22 +17,22 @@ return [
     'fields' => [
 
         'email' => [
-            'label' => 'Email address',
+            'label' => 'אימייל',
         ],
 
         'password' => [
-            'label' => 'Password',
+            'label' => 'סיסמא',
         ],
 
         'remember' => [
-            'label' => 'Remember me',
+            'label' => 'זכור אותי',
         ],
 
     ],
 
     'messages' => [
-        'failed' => 'These credentials do not match our records.',
-        'throttled' => 'Too many login attempts. Please try again in :seconds seconds.',
+        'failed' => 'הפרטים שהזנת אינם תואמים לרישום אצלנו',
+        'throttled' => 'יותר מידי נסיונות התחברות, נסה שוב בעוד :seconds שניות.',
     ],
 
 ];

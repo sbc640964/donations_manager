@@ -2,20 +2,20 @@
 
 return [
 
-    'direction' => 'ltr',
+    'direction' => 'rtl',
 
     'buttons' => [
 
         'dark_mode' => [
-            'label' => 'Toggle dark mode',
+            'label' => 'החלף למצב כהה',
         ],
 
         'light_mode' => [
-            'label' => 'Toggle light mode',
+            'label' => 'החלף למצב בהיר',
         ],
 
         'logout' => [
-            'label' => 'Sign out',
+            'label' => 'התנתק',
         ],
 
     ],

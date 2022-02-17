@@ -4,16 +4,16 @@ return [
 
     'action' => [
 
-        'label' => 'Edit',
+        'label' => 'עריכה',
 
         'modal' => [
 
-            'heading' => 'Edit :label',
+            'heading' => 'עידכון :label',
 
             'actions' => [
 
                 'save' => [
-                    'label' => 'Save',
+                    'label' => 'שמור',
                 ],
 
             ],

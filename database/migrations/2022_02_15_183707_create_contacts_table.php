@@ -14,7 +14,7 @@ class CreateContactsTable extends Migration
             $table->string('last_name');
             $table->string('full_name');
             $table->string('tel');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->foreignId('shtibil_id')->nullable()->constrained('shtibils');
             $table->foreignId('city_id')->constrained('cities');
             $table->string('address');

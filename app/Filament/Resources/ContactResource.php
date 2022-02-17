@@ -24,25 +24,28 @@ class ContactResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('first_name')
-                    ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('last_name')
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('tel')
                     ->tel()
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('phone')
                     ->tel()
-                    ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('address')
                     ->required()
                     ->columnSpan(2)
                     ->maxLength(255),
 
                 Forms\Components\BelongsToSelect::make('city_id')
+                    ->required()
                     ->reactive()
                     ->afterStateUpdated(fn (\Closure $set) => $set('shtibil_id', null))
                     ->relationship('city', 'name'),
