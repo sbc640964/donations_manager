@@ -4,20 +4,20 @@ return [
 
     'action' => [
 
-        'label' => 'Create',
+        'label' => 'צור חדש',
 
         'modal' => [
 
-            'heading' => 'Create :label',
+            'heading' => 'צור :label',
 
             'actions' => [
 
                 'create' => [
-                    'label' => 'Create',
+                    'label' => 'צור',
                 ],
 
                 'create_and_create_another' => [
-                    'label' => 'Create & create another',
+                    'label' => 'צור והחל חדש',
                 ],
 
             ],
@@ -25,7 +25,7 @@ return [
         ],
 
         'messages' => [
-            'created' => 'Created',
+            'created' => 'נוצר בהצלחה',
         ],
 
     ],

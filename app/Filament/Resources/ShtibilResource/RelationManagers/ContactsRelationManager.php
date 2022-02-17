@@ -14,29 +14,33 @@ class ContactsRelationManager extends HasManyRelationManager
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $label = 'איש קשר';
+
+    protected static ?string $pluralLabel = 'אנשי קשר';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('first_name')
+                Forms\Components\TextInput::make('first_name')->label('שם פרטי')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('last_name')
+                Forms\Components\TextInput::make('last_name')->label('משפחה')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tel')
+                Forms\Components\TextInput::make('tel')->label('טלפון')
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
+                Forms\Components\TextInput::make('phone')->label('נייד')
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('address')
+                Forms\Components\TextInput::make('address')->label('כתובת')
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\BelongsToSelect::make('city')
+                Forms\Components\BelongsToSelect::make('city')->label('עיר')
                     ->relationship('city', 'name')
                     ->searchable(),
 
@@ -52,11 +56,14 @@ class ContactsRelationManager extends HasManyRelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('last_name'),
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('tel'),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('address'),
+                Tables\Columns\TextColumn::make('first_name')->label('משפחה'),
+                Tables\Columns\TextColumn::make('last_name')->label('שם פרטי'),
+                Tables\Columns\TextColumn::make('tel')->label('טלפון'),
+                Tables\Columns\TextColumn::make('phone')->label('נייד'),
+                Tables\Columns\TextColumn::make('address')->label('כתובת'),
+                Tables\Columns\BooleanColumn::make('donations_count')
+                    ->counts('donations')
+                    ->label('תרם'),
             ])
             ->filters([
                 //

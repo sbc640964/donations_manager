@@ -4,28 +4,28 @@ return [
 
     'action' => [
 
-        'label' => 'Delete',
+        'label' => 'מחק',
 
         'modal' => [
-            'heading' => 'Delete :label',
+            'heading' => 'מחק :label',
         ],
 
         'messages' => [
-            'deleted' => 'Deleted',
+            'deleted' => 'נמחק בהצלחה',
         ],
 
     ],
 
     'bulk_action' => [
 
-        'label' => 'Delete selected',
+        'label' => 'מחק נבחרים',
 
         'modal' => [
-            'heading' => 'Delete selected :label',
+            'heading' => 'מחק :label נבחרים',
         ],
 
         'messages' => [
-            'deleted' => 'Deleted',
+            'deleted' => 'נמחקו בהצלחה',
         ],
 
     ],

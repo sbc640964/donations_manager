@@ -17,15 +17,19 @@ class ShtibilResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-library';
 
+    protected static ?string $label = 'שטיבל';
+
+    protected static ?string $pluralLabel = 'שטיבלאך';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\BelongsToSelect::make('city_id')
+                Forms\Components\BelongsToSelect::make('city_id')->label('עיר')
                     ->relationship('city', 'name')
                     ->searchable()
                     ->required(),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('name')->label('שם')
                     ->required()
                     ->maxLength(255),
             ]);
