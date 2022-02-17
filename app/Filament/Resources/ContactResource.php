@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ContactResource\Pages;
 use App\Filament\Resources\ContactResource\RelationManagers;
 use App\Models\Contact;
+use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -70,15 +71,15 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('last_name'),
-                Tables\Columns\TextColumn::make('first_name'),
+                Tables\Columns\TextColumn::make('last_name')->searchable(['first_name', 'full_name']),
+                Tables\Columns\TextColumn::make('first_name')->searchable(),
                 Tables\Columns\TextColumn::make('tel'),
                 Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('city.name')->sortable(),
+                Tables\Columns\TextColumn::make('city.name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('shtibil.name'),
-                Tables\Columns\TextColumn::make('father'),
-                Tables\Columns\TextColumn::make('father_in_law'),
+                Tables\Columns\TextColumn::make('shtibil.name')->searchable(),
+//                Tables\Columns\TextColumn::make('father'),
+//                Tables\Columns\TextColumn::make('father_in_law'),
 //                Tables\Columns\TextColumn::make('created_at')
 //                    ->dateTime(),
 //                Tables\Columns\TextColumn::make('updated_at')
@@ -98,6 +99,55 @@ class ContactResource extends Resource
 
                 Tables\Filters\MultiSelectFilter::make('shtibil')
                     ->relationship('shtibil', 'name'),
+            ])
+            ->pushActions([
+                Tables\Actions\LinkAction::make('add donation')
+                    ->form([
+                        Forms\Components\Radio::make('type')
+                            ->reactive()
+                            ->columnSpan(2)
+                            ->afterStateUpdated(function(Closure $set, Closure $get) {
+                                if(!in_array($get('type'), [1,2])){
+                                    $set('months', 1);
+                                }
+                            })
+                            ->required()
+                            ->options([
+                                1 => "הוראת קבע בנקאית",
+                                2 => "הוראת קבע באשראי",
+                                3 => "תשלום חד פעמי באשראי",
+                                4 => "תשלום חד פעמי בהעברה",
+                                5 => "תשלום מזומן חד פעמי",
+                            ])
+                            ->default(2),
+
+                        Forms\Components\Select::make('fund_raiser_id')
+                            ->getSearchResultsUsing(fn($query) => Contact::where('full_name', 'like', "%$query%")->pluck('full_name', 'id'))
+                            ->columnSpan(2)
+                            ->searchable(),
+
+                        Forms\Components\TextInput::make('amount')
+                            ->columnSpan(2)
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('months')
+                            ->hidden(fn(Closure $get) => !in_array($get('type'), [1,2]) && !is_null($get('type')))
+                            ->columnSpan(2)
+                            ->default(60)
+                            ->numeric()
+                            ->required(),
+                        //Forms\Components\FileUpload::make('file'),
+                        Forms\Components\Toggle::make('done')->columnSpan(2),
+
+                        Forms\Components\Textarea::make('not')->columnSpan(2),
+                    ])
+                    ->action(function (Contact $record, $data) {
+                        $record->donations()->create($data);
+                    })
+                    ->requiresConfirmation()
+                    ->modalWidth('3xl')
+                    ->color('primary'),
             ]);
     }
 
@@ -117,4 +167,5 @@ class ContactResource extends Resource
             'edit' => Pages\EditContact::route('/{record}/edit'),
         ];
     }
+
 }
