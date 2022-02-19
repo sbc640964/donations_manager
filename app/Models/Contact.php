@@ -9,7 +9,7 @@ class Contact extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'full_name'
+        'short_full_name'
     ];
 
     public function father(){
