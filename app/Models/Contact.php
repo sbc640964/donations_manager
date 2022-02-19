@@ -38,7 +38,7 @@ class Contact extends Model
         return $this->hasMany(Donation::class, 'fund_raiser_id');
     }
 
-    public function getFullNameAttribute()
+    public function getShortFullNameAttribute()
     {
         $name = $this->last_name;
 
