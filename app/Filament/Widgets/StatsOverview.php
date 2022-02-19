@@ -19,7 +19,7 @@ class StatsOverview extends BaseWidget
 
         return [
             Card::make('Total donations', $totalDonations ),
-            Card::make('Total', Money::ILS($total - 200000, true)),
+            Card::make('Total', Money::ILS($total - 300000, true)),
         ];
     }
 }
