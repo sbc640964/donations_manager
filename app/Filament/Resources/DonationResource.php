@@ -91,7 +91,6 @@ class DonationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('months')->label("מס' חודשים/תשלומים"),
                 Tables\Columns\TextColumn::make('total')->label('סה"כ')->money('ILS', true),
-                Tables\Columns\TextColumn::make('card.card')->label("כרטיס"),
                 Tables\Columns\BooleanColumn::make('done')->label('בוצע'),
             ])
             ->filters([
