@@ -146,7 +146,6 @@ class DonationResource extends Resource
                             ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                                 ->numeric()
                             ),
-
                     ])
                     ->action(function (Donation $record, $data) {
                         $record->card()->create($data);

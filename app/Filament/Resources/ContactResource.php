@@ -222,8 +222,8 @@ class ContactResource extends Resource
                     ->action(function (Contact $record, $data) {
 
                         DB::transaction(function () use ($data, $record) {
-                            $card_donation = null;
 
+                            $card_donation = null;
                             $donation_data = collect($data)->only(['type', 'fund_raiser_id', 'amount', 'months', 'done', 'not'])->all();
 
                             if(in_array($donation_data['type'], [2,3])){
@@ -232,7 +232,10 @@ class ContactResource extends Resource
 
                             $donation = $record->donations()->create($donation_data);
 
-                            $donation->card()->create($card_donation);
+                            if(in_array($donation_data['type'], [2,3])){
+                                $donation->card()->create($card_donation);
+                            }
+
                         });
 
                     })
