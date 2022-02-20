@@ -71,7 +71,7 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('donor.short_full_name')->label('תורם')->sortable()->searchable(['donor.first_name', 'donor.last_name']),
+                Tables\Columns\TextColumn::make('donor.short_full_name')->label('תורם')->sortable()->searchable(['first_name', 'last_name']),
                 Tables\Columns\TextColumn::make('donor.city.name')->label('עיר')->searchable(),
                 Tables\Columns\TextColumn::make('donor.shtibil.name')->label('שטיבל')->searchable(),
                 Tables\Columns\TextColumn::make('type')->label('סוג התרומה')->enum([
