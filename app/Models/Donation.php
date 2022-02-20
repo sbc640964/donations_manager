@@ -9,7 +9,11 @@ class Donation extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'total'
+        'total',
+    ];
+
+    protected $with = [
+        'card'
     ];
 
     public function donor()
@@ -26,5 +30,11 @@ class Donation extends Model
     {
         return $this->amount * $this->months;
     }
+
+    public function card()
+    {
+        return $this->hasOne(Card::class, 'donation_id');
+    }
+
 
 }

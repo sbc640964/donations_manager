@@ -47,6 +47,7 @@ class DonationsRelationManager extends HasManyRelationManager
                     ->numeric(),
                 //Forms\Components\FileUpload::make('file'),
                 Forms\Components\Toggle::make('done')->columnSpan(2),
+
                 Forms\Components\Textarea::make('not'),
             ]);
     }

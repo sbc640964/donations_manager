@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactResource\Pages;
 use App\Filament\Resources\ContactResource\RelationManagers;
+use App\Models\Card;
 use App\Models\Contact;
 use Closure;
 use Filament\Forms;
@@ -11,7 +12,9 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Freelancehunt\Validators\CreditCard;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class ContactResource extends Resource
 {
@@ -161,10 +164,73 @@ class ContactResource extends Resource
                         //Forms\Components\FileUpload::make('file'),
                         Forms\Components\Toggle::make('done')->columnSpan(2)->label('בוצע'),
 
+                        Forms\Components\TextInput::make('card')->label('כרטיס')
+                            ->required()
+                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
+                                ->pattern("0000-0000-0000-0000")
+                                ->numeric()
+                            )->rules([
+                                function() {
+                                    return function (string $attribute, $value, Closure $fail)
+                                    {
+                                        if(!($card = CreditCard::validCreditCard($value))['valid']){
+                                            return $fail("מס' הכרטיס לא תקין");
+                                        }
+                                    };
+                                }
+                            ]),
+
+                        Forms\Components\TextInput::make('exp')->label('תוקף')
+                            ->required()
+                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
+                                ->pattern("00/00")
+                                ->numeric()
+                            )
+                            ->rules([
+                                function() {
+                                    return function (string $attribute, $value, Closure $fail)
+                                    {
+                                        list($month, $year) = str_split($value, 2);
+
+                                        $year = "20" . $year;
+
+                                        if(!CreditCard::validDate($year, $month)){
+                                            return $fail("התוקף לא תקין");
+                                        }
+                                    };
+                                }
+                            ]),
+
+                        Forms\Components\TextInput::make('password')->label('תעודת זהות')
+                            ->required()
+                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
+                                ->numeric()
+                            ),
+                        Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
+                            ->required()
+                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
+                                ->numeric()
+                            ),
+
+
                         Forms\Components\Textarea::make('not')->columnSpan(2)->label('הערה'),
                     ])
                     ->action(function (Contact $record, $data) {
-                        $record->donations()->create($data);
+
+                        DB::transaction(function () use ($data, $record) {
+                            $card_donation = null;
+
+                            $donation_data = collect($data)->only(['type', 'fund_raiser_id', 'amount', 'months', 'done', 'not'])->all();
+
+                            if(in_array($donation_data['type'], [2,3])){
+                                $card_donation = collect($data)->only(['card', 'exp', 'day', 'password'])->all();
+                            }
+
+                            $donation = $record->donations()->create($donation_data);
+
+                            $donation->card()->create($card_donation);
+                        });
+
                     })
                     ->requiresConfirmation()
                     ->modalWidth('3xl')
