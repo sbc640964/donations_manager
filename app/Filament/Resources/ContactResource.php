@@ -166,6 +166,7 @@ class ContactResource extends Resource
 
                         Forms\Components\TextInput::make('card')->label('כרטיס')
                             ->required()
+                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
                             ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                                 ->pattern("0000-0000-0000-0000")
                                 ->numeric()
@@ -186,6 +187,7 @@ class ContactResource extends Resource
                                 ->pattern("00/00")
                                 ->numeric()
                             )
+                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
                             ->rules([
                                 function() {
                                     return function (string $attribute, $value, Closure $fail)
@@ -203,11 +205,13 @@ class ContactResource extends Resource
 
                         Forms\Components\TextInput::make('password')->label('תעודת זהות')
                             ->required()
+                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
                             ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                                 ->numeric()
                             ),
                         Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
                             ->required()
+                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
                             ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                                 ->numeric()
                             ),
