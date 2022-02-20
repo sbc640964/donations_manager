@@ -9,6 +9,7 @@
         "akaunting/laravel-money": "^2.0",
         "doctrine/dbal": "^3.3",
         "filament/filament": "^2.10",
+        "freelancehunt/php-credit-card-validator": "^3.2",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "itsgoingd/clockwork": "^5.1",
