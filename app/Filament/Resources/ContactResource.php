@@ -89,6 +89,7 @@ class ContactResource extends Resource
                 Tables\Columns\TextColumn::make('city.name')->sortable()->searchable()->label('עיר'),
                 Tables\Columns\TextColumn::make('address')->label('כתובת'),
                 Tables\Columns\TextColumn::make('shtibil.name')->searchable()->label('שטיבל'),
+                Tables\Columns\TextColumn::make('donations.id')->searchable()->label('מזהה תרומה'),
                 Tables\Columns\BooleanColumn::make('donations_count')->counts('donations')->label('תרם'),
 //                Tables\Columns\TextColumn::make('father'),
 //                Tables\Columns\TextColumn::make('father_in_law'),
