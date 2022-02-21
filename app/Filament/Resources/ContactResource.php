@@ -205,10 +205,8 @@ class ContactResource extends Resource
 
                         Forms\Components\TextInput::make('password')->label('תעודת זהות')
                             ->required()
-                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->numeric()
-                            ),
+                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3])),
+
                         Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
                             ->required()
                             ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
