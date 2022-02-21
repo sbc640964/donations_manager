@@ -84,8 +84,8 @@ class ContactResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('last_name')->searchable(['first_name', 'full_name'])->label('משפחה'),
                 Tables\Columns\TextColumn::make('first_name')->searchable()->label('שם פרטי'),
-                Tables\Columns\TextColumn::make('tel')->label('טלפון'),
-                Tables\Columns\TextColumn::make('phone')->label('נייד'),
+                Tables\Columns\TextColumn::make('tel')->label('טלפון')->searchable(),
+                Tables\Columns\TextColumn::make('phone')->label('נייד')->searchable(),
                 Tables\Columns\TextColumn::make('city.name')->sortable()->searchable()->label('עיר'),
                 Tables\Columns\TextColumn::make('address')->label('כתובת'),
                 Tables\Columns\TextColumn::make('shtibil.name')->searchable()->label('שטיבל'),

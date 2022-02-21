@@ -137,10 +137,7 @@ class DonationResource extends Resource
                             ]),
 
                         Forms\Components\TextInput::make('password')->label('תעודת זהות')
-                            ->required()
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->numeric()
-                            ),
+                            ->required(),
                         Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
                         ->required()
                             ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
