@@ -22,4 +22,9 @@ class StatsOverview extends BaseWidget
             Card::make('Total', Money::ILS($total - 325000, true)),
         ];
     }
+
+    public static function canView(): bool
+    {
+        return in_array(auth()->user()->id, [1]);
+    }
 }

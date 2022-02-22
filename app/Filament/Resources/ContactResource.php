@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\FormsComponents\CreateDonation;
 use App\Filament\Resources\ContactResource\Pages;
 use App\Filament\Resources\ContactResource\RelationManagers;
 use App\Models\Card;
 use App\Models\Contact;
+use App\Models\Donation;
 use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -123,125 +125,21 @@ class ContactResource extends Resource
                     ->relationship('shtibil', 'name'),
             ])
 
-
             ->pushActions([
                 Tables\Actions\LinkAction::make('add donation')->label('הוסף תרומה')
-                    ->form([
-                        Forms\Components\Radio::make('type')->label('סוג')
-                            ->reactive()
-                            ->columnSpan(2)
-                            ->afterStateUpdated(function(Closure $set, Closure $get) {
-                                if(!in_array($get('type'), [1,2,6])){
-                                    $set('months', 1);
-                                }
-                            })
-                            ->required()
-                            ->options([
-                                1 => "הוראת קבע בנקאית",
-                                2 => "הוראת קבע באשראי",
-                                3 => "תשלום חד פעמי באשראי",
-                                4 => "תשלום חד פעמי בהעברה",
-                                5 => "תשלום מזומן חד פעמי",
-                                6 => "שקים",
-                            ])
-                            ->default(2),
-
-                        Forms\Components\Select::make('fund_raiser_id')->label('מתרים')
-                            ->getSearchResultsUsing(fn($query) => Contact::where('full_name', 'like', "%$query%")->pluck('full_name', 'id'))
-                            ->columnSpan(2)
-                            ->searchable(),
-
-                        Forms\Components\TextInput::make('amount')->label('סכום')
-                            ->columnSpan(2)
-                            ->numeric()
-                            ->required(),
-
-                        Forms\Components\TextInput::make('months')->label('מס\' חודשים')
-                            ->hidden(fn(Closure $get) => !in_array($get('type'), [1,2,6]) && !is_null($get('type')))
-                            ->columnSpan(2)
-                            ->default(60)
-                            ->numeric()
-                            ->required(),
-                        //Forms\Components\FileUpload::make('file'),
-                        Forms\Components\Toggle::make('done')->columnSpan(2)->label('בוצע'),
-
-                        Forms\Components\TextInput::make('card')->label('כרטיס')
-                            ->required()
-                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->pattern("0000-0000-0000-0000")
-                                ->numeric()
-                            )->rules([
-                                function() {
-                                    return function (string $attribute, $value, Closure $fail)
-                                    {
-                                        if(!($card = CreditCard::validCreditCard($value))['valid']){
-                                            return $fail("מס' הכרטיס לא תקין");
-                                        }
-                                    };
-                                }
-                            ]),
-
-                        Forms\Components\TextInput::make('exp')->label('תוקף')
-                            ->required()
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->pattern("00/00")
-                                ->numeric()
-                            )
-                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
-                            ->rules([
-                                function() {
-                                    return function (string $attribute, $value, Closure $fail)
-                                    {
-                                        list($month, $year) = str_split($value, 2);
-
-                                        $year = "20" . $year;
-
-                                        if(!CreditCard::validDate($year, $month)){
-                                            return $fail("התוקף לא תקין");
-                                        }
-                                    };
-                                }
-                            ]),
-
-                        Forms\Components\TextInput::make('password')->label('תעודת זהות')
-                            ->required()
-                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3])),
-
-                        Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
-                            ->required()
-                            ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->numeric()
-                            ),
-
-
-                        Forms\Components\Textarea::make('not')->columnSpan(2)->label('הערה'),
-                    ])
-                    ->action(function (Contact $record, $data) {
-
-                        DB::transaction(function () use ($data, $record) {
-
-                            $card_donation = null;
-                            $donation_data = collect($data)->only(['type', 'fund_raiser_id', 'amount', 'months', 'done', 'not'])->all();
-
-                            if(in_array($donation_data['type'], [2,3])){
-                                $card_donation = collect($data)->only(['card', 'exp', 'day', 'password'])->all();
-                            }
-
-                            $donation = $record->donations()->create($donation_data);
-
-                            if(in_array($donation_data['type'], [2,3])){
-                                $donation->card()->create($card_donation);
-                            }
-
-                        });
-
+                    ->form(
+                        CreateDonation::fields()
+                    )
+                    ->action(function ($record, $data) {
+                        CreateDonation::action($record, $data);
                     })
-                    ->requiresConfirmation()
+                    ->modalButton('הוסף תרומה')
+                    ->hidden(request()->user()->cannot('create', Donation::class))
+//                    ->requiresConfirmation()
                     ->modalWidth('3xl')
                     ->color('primary'),
-            ]);
+            ])
+            ->defaultSort('last_name');
     }
 
     public static function getRelations(): array
