@@ -35,12 +35,12 @@ class ContactPolicy
 
     public function create(User $user): bool
     {
-        return in_array($user->id, [1,2]);
+        return in_array($user->id, [1,2,3,4]);
     }
 
     public function update(User $user, Contact $contact): bool
     {
-        return in_array($user->id, [1,2]);
+        return in_array($user->id, [1,2,3,4]);
     }
 
     public function delete(User $user, Contact $contact): bool
