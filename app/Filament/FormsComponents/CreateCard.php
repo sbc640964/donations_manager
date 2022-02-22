@@ -14,7 +14,7 @@ class CreateCard
         if(!$show) return [];
 
         return [
-            Forms\Components\TextInput::make('card.card')->label('כרטיס')
+            Forms\Components\TextInput::make('card')->label('כרטיס')
                 ->required()
                 ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
                 ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
@@ -31,7 +31,7 @@ class CreateCard
                     }
                 ]),
 
-            Forms\Components\TextInput::make('card.exp')->label('תוקף')
+            Forms\Components\TextInput::make('exp')->label('תוקף')
                 ->required()
                 ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                     ->pattern("00/00")
@@ -53,11 +53,11 @@ class CreateCard
                     }
                 ]),
 
-            Forms\Components\TextInput::make('card.password')->label('תעודת זהות')
+            Forms\Components\TextInput::make('password')->label('תעודת זהות')
                 ->required()
                 ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3])),
 
-            Forms\Components\TextInput::make('card.day')->label('יום גבייה בחודש')
+            Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
                 ->required()
                 ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
                 ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask

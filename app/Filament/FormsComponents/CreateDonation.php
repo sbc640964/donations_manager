@@ -75,6 +75,7 @@ class CreateDonation
             $card_donation = null;
             $donation_data = collect($data)->only(['type', 'fund_raiser_id', 'amount', 'months', 'done', 'not'])->all();
 
+
             if(in_array($donation_data['type'], [2,3])){
                 $card_donation = collect($data)->only(['card', 'exp', 'day', 'password'])->all();
             }
