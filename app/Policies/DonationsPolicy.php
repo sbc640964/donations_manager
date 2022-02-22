@@ -27,7 +27,7 @@ class DonationsPolicy
 
     public function view(User $user, Donation $donation): bool
     {
-        return in_array($user->id, [1,2,3]);
+        return in_array($user->id, [1,2,3,4]);
     }
 
     public function create(User $user): bool
