@@ -45,7 +45,7 @@ class ContactPolicy
 
     public function delete(User $user, Contact $contact): bool
     {
-        return in_array($user->id, [1,2]);
+        return in_array($user->id, [1,3]);
     }
 
 }
