@@ -15,10 +15,10 @@ class DonationsPolicy
         //
     }
 
-    public function before(User $user)
-    {
-        return $user->email === "sbc640964@gmail.com";
-    }
+//    public function before(User $user)
+//    {
+//        return $user->email === "sbc640964@gmail.com";
+//    }
 
     public function viewAny(User $user): bool
     {
@@ -29,14 +29,12 @@ class DonationsPolicy
     public function view(User $user, Donation $donation): bool
     {
         dd('view', $user);
-
         return in_array($user->id, [1,2,3,4]);
     }
 
     public function create(User $user): bool
     {
         dd('create', $user);
-
         return in_array($user->id, [1,3]);
     }
 
