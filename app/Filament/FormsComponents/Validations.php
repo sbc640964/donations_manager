@@ -6,6 +6,8 @@ class Validations
 {
     static public function checkIsracard($id){
 
+        $id = settype($id, 'string');
+
         $lenId = strlen($id);
 
         if($lenId > 9 || $lenId < 8){
