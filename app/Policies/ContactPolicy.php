@@ -16,12 +16,12 @@ class ContactPolicy
         //
     }
 
-    public function before(User $user)
-    {
-        if($user->email === "sbc640964@gmail.com"){
-            return true;
-        }
-    }
+//    public function before(User $user)
+//    {
+//        if($user->email === "sbc640964@gmail.com"){
+//            return true;
+//        }
+//    }
 
     public function viewAny(User $user): bool
     {

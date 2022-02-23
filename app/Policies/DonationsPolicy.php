@@ -22,19 +22,16 @@ class DonationsPolicy
 
     public function viewAny(User $user): bool
     {
-        dd('any', $user);
         return in_array($user->id, [1,2,3,4]);
     }
 
     public function view(User $user, Donation $donation): bool
     {
-        dd('view', $user);
         return in_array($user->id, [1,2,3,4]);
     }
 
     public function create(User $user): bool
     {
-        dd('create', $user);
         return in_array($user->id, [1,3]);
     }
 
