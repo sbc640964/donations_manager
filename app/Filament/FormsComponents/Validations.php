@@ -6,8 +6,6 @@ class Validations
 {
     static public function checkIsracard($id){
 
-        dd($id);
-
         if(gettype($id) === 'integer'){
             $id = settype($id, 'string');
         }

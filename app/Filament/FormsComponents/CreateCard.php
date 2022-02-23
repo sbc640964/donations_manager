@@ -25,7 +25,7 @@ class CreateCard
                         return function (string $attribute, $value, Closure $fail)
                         {
                             if(!($card = CreditCard::validCreditCard($value))['valid']){
-                                if(!Validations::checkIsracard($card)){
+                                if(!Validations::checkIsracard($value)){
                                     return $fail("מס' הכרטיס לא תקין");
                                 }
                             }
