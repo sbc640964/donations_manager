@@ -28,12 +28,18 @@ class Donation extends Model
 
     public function getTotalAttribute() : int
     {
-        return $this->amount * $this->months;
+        return $this->amount * ($this->months ?? 60);
     }
 
     public function card()
     {
         return $this->hasOne(Card::class, 'donation_id');
+    }
+
+    public function setInfinity()
+    {
+        $this->months = null;
+        $this->save();
     }
 
 

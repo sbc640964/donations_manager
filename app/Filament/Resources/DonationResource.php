@@ -28,7 +28,7 @@ class DonationResource extends Resource
     {
         return $form
             ->schema(
-                CreateDonation::fields(true, true)
+                CreateDonation::fields(false, true)
             );
     }
 
@@ -114,6 +114,16 @@ class DonationResource extends Resource
                     ->color('primary')
                     ->modalHeading('Add card')
                     ->modalSubheading('Add card to donation'),
+
+                Tables\Actions\LinkAction::make('define_infinity')->label('ללא הגבלה')
+                    ->action(function (Donation $record) {
+                        $record->setInfinity();
+                    })
+//                    ->modalButton('הוסף תרומה')
+                    ->hidden(fn(Donation $record) => $record->months != 60 || request()->user()->cannot('update', $record))
+//                    ->requiresConfirmation()
+//                    ->modalWidth('3xl')
+//                    ->color('primary'),
             ]);
     }
 

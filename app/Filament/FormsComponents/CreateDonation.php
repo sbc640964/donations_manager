@@ -3,6 +3,7 @@
 namespace App\Filament\FormsComponents;
 
 use App\Models\Contact;
+use App\Models\Donation;
 use Closure;
 use Filament\Forms;
 use Illuminate\Support\Facades\DB;
@@ -35,8 +36,9 @@ class CreateDonation
 
         if($withDonor){
             $fields[] =
-                Forms\Components\Select::make('donor')->label('תורם')
+                Forms\Components\Select::make('donor_id')->label('תורם')
                     ->getSearchResultsUsing(fn($query) => Contact::where('full_name', 'like', "%$query%")->pluck('full_name', 'id'))
+                    ->getOptionLabelUsing(fn($value) => Contact::find($value)?->full_name ?? null)
                     ->searchable();
         }
 
@@ -44,6 +46,7 @@ class CreateDonation
             $fields[] =
                 Forms\Components\Select::make('fund_raiser_id')->label('מתרים')
                     ->getSearchResultsUsing(fn($query) => Contact::where('full_name', 'like', "%$query%")->pluck('full_name', 'id'))
+                    ->getOptionLabelUsing(fn($value) => Contact::find($value)?->full_name ?? null)
                     ->searchable();
         }
 
@@ -55,8 +58,7 @@ class CreateDonation
             Forms\Components\TextInput::make('months')->label('מס\' חודשים')
                 ->hidden(fn(Closure $get) => !in_array($get('type'), [1,2,6]) && !is_null($get('type')))
                 ->default(60)
-                ->numeric()
-                ->required(),
+                ->numeric(),
             //Forms\Components\FileUpload::make('file'),
             Forms\Components\Toggle::make('done')->columnSpan(2)->label('בוצע'),
 
