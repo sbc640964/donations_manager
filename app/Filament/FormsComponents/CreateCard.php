@@ -9,14 +9,14 @@ use Filament\Forms;
 
 class CreateCard
 {
-    static public function fields($show)
+    static public function fields($show = true, $inForm = true)
     {
         if(!$show) return [];
 
         return [
             Forms\Components\TextInput::make('card')->label('כרטיס')
                 ->required()
-                ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
+                ->hidden(fn(Closure $get) => $inForm && !in_array($get('type'), [2,3]))
                 ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                     ->pattern("0000-0000-0000-0000")
                     ->numeric()
@@ -39,7 +39,7 @@ class CreateCard
                     ->pattern("00/00")
                     ->numeric()
                 )
-                ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
+                ->hidden(fn(Closure $get) => $inForm && !in_array($get('type'), [2,3]))
                 ->rules([
                     function() {
                         return function (string $attribute, $value, Closure $fail)
@@ -76,11 +76,11 @@ class CreateCard
                         };
                     }
                 ])
-                ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3])),
+                ->hidden(fn(Closure $get) => $inForm && !in_array($get('type'), [2,3])),
 
             Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
                 ->required()
-                ->hidden(fn(Closure $get) => !in_array($get('type'), [2,3]))
+                ->hidden(fn(Closure $get) => $inForm && !in_array($get('type'), [2,3]))
                 ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
                     ->numeric()
                 ),

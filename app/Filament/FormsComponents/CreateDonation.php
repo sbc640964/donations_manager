@@ -62,7 +62,7 @@ class CreateDonation
             //Forms\Components\FileUpload::make('file'),
             Forms\Components\Toggle::make('done')->columnSpan(2)->label('בוצע'),
 
-            ...CreateCard::fields($withCard),
+            ...CreateCard::fields($withCard, true),
 
             Forms\Components\Textarea::make('not')->columnSpan(2)->label('הערה'),
         ]);

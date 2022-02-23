@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\FormsComponents\CreateCard;
 use App\Filament\FormsComponents\CreateDonation;
 use App\Filament\Resources\DonationResource\Pages;
 use App\Filament\Resources\DonationResource\RelationManagers;
@@ -59,52 +60,7 @@ class DonationResource extends Resource
             ])
             ->pushActions([
                 Tables\Actions\LinkAction::make('add_card')->label('הוסף כרטיס')
-                    ->form([
-                        Forms\Components\TextInput::make('card')->label('כרטיס')
-                            ->required()
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->pattern("0000-0000-0000-0000")
-                                ->numeric()
-                            )->rules([
-                                function() {
-                                    return function (string $attribute, $value, Closure $fail)
-                                    {
-                                        if(!($card = CreditCard::validCreditCard($value))['valid']){
-                                            return $fail("מס' הכרטיס לא תקין");
-                                        }
-                                    };
-                                }
-                            ]),
-
-                        Forms\Components\TextInput::make('exp')->label('תוקף')
-                            ->required()
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->pattern("00/00")
-                                ->numeric()
-                            )
-                            ->rules([
-                                function() {
-                                    return function (string $attribute, $value, Closure $fail)
-                                    {
-                                        list($month, $year) = str_split($value, 2);
-
-                                        $year = "20" . $year;
-
-                                        if(!CreditCard::validDate($year, $month)){
-                                            return $fail("התוקף לא תקין");
-                                        }
-                                    };
-                                }
-                            ]),
-
-                        Forms\Components\TextInput::make('password')->label('תעודת זהות')
-                            ->required(),
-                        Forms\Components\TextInput::make('day')->label('יום גבייה בחודש')
-                        ->required()
-                            ->mask(fn (Forms\Components\TextInput\Mask $mask) => $mask
-                                ->numeric()
-                            ),
-                    ])
+                    ->form(CreateCard::fields(true, false))
                     ->action(function (Donation $record, $data) {
                         $record->card()->create($data);
                     })
@@ -112,8 +68,8 @@ class DonationResource extends Resource
                     ->requiresConfirmation()
                     ->modalWidth('3xl')
                     ->color('primary')
-                    ->modalHeading('Add card')
-                    ->modalSubheading('Add card to donation'),
+                    ->modalHeading('הוספת כרטיס אשראי')
+                    ->modalSubheading('פרטי אשראי עבור התרומה'),
 
                 Tables\Actions\LinkAction::make('define_infinity')->label('ללא הגבלה')
                     ->action(function (Donation $record) {
@@ -123,7 +79,8 @@ class DonationResource extends Resource
                     ->hidden(fn(Donation $record) => $record->months != 60 || request()->user()->cannot('update', $record))
 //                    ->requiresConfirmation()
 //                    ->modalWidth('3xl')
-//                    ->color('primary'),
+                    ->color('success')
+                    ->requiresConfirmation(),
             ]);
     }
 
