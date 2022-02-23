@@ -37,7 +37,7 @@ class DonationsPolicy
 
     public function update(User $user, Donation $donation): bool
     {
-        return in_array($user->id, [1,3]);
+        return in_array($user->id, [1,3,]);
     }
 
     public function delete(User $user, Donation $donation): bool
