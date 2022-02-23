@@ -5,8 +5,9 @@ namespace App\Filament\FormsComponents;
 class Validations
 {
     static public function checkIsracard($id){
-
-        $id = settype($id, 'string');
+        if(gettype($id) === 'integer'){
+            $id = settype($id, 'string');
+        }
 
         $lenId = strlen($id);
 
