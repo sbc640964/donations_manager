@@ -22,6 +22,7 @@ class DonationsPolicy
 
     public function viewAny(User $user): bool
     {
+        dd($user);
         return in_array($user->id, [1,2,3,4]);
     }
 
