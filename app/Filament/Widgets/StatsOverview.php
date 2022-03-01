@@ -15,7 +15,7 @@ class StatsOverview extends BaseWidget
     {
         $totalDonations = Donation::where('amount', '>', 0)->count();
 
-        $total = DB::table('donations')->selectRaw('SUM(amount * months) as total')->first()?->total ?? 0;
+        $total = DB::table('donations')->selectRaw('SUM(amount * if(months, months, 60)) as total')->first()?->total ?? 0;
 
         return [
             Card::make('Total donations', $totalDonations ),
